@@ -4,10 +4,25 @@ import {render} from 'react-dom';
 import App from './components/app/App';
 
 import {Store} from 'react-chrome-redux';
+import {WrapStore} from 'react-chrome-redux';
+
+import {createStore} from './store';
+
 import {Provider} from 'react-redux';
 
-const proxyStore = new Store({
-  portName: 'example'
+
+const proxyStore = new Store({portName: 'example'});
+
+const store = createStore();
+
+WrapStore(store, {portName: 'example'});
+
+setInterval(() => {
+    store.dispatch({type: 'INCREMENT'});
+}, 1000);
+
+store.subscribe(() => {
+    console.log('increment');
 });
 
 render(
